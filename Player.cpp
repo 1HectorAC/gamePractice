@@ -26,7 +26,7 @@ void Player::keyPressEvent(QKeyEvent *event){
             setPos(x()-150,y());
     }
     else if (event->key() == Qt::Key_Right){
-        if (pos().x() + 100 < 1500)
+        if (pos().x() < game->screenWidth - 300)
             setPos(x()+150,y());
     }
 

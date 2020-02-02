@@ -18,8 +18,8 @@ public:
 // changed 0 to null
     Game(QWidget * parent=NULL);
  //////////////////////
-    void displayMainMenu();
 
+    void displayMainMenu();
     void displayGameOverWindow(QString textToDisplay, QString scores);
   ///////////////////////////////////////
     QGraphicsScene * scene;
@@ -40,6 +40,8 @@ public slots:
     void start();
     void restartGame();
     void gameOver();
+    //void setGameSizeScreen();
+
     ////////////////////////////////////
 
 private:

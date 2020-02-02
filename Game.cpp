@@ -16,9 +16,9 @@ Game::Game(QWidget *parent){
 
     // create the scene
     scene = new QGraphicsScene();
-    screenWidth = 1500;
-    screenHeight = 1200;
-
+    screenWidth = 1920;
+    screenHeight = 1080;
+    //can change to 1920x1080, 1280x720
 
     scene->setSceneRect(0,0,screenWidth,screenHeight);
 
@@ -31,6 +31,35 @@ Game::Game(QWidget *parent){
     setFixedSize(screenWidth,screenHeight);
 
 }
+
+/*
+//function will display screen to edit screen size
+void Game::setGameSizeScreen(){
+    // create the title text
+    QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("Set game screen resolution"));
+    QFont titleFont("comic sans",20);
+    titleText->setFont(titleFont);
+    int txPos = this->width()/2 - titleText->boundingRect().width()/2;
+    int tyPos = 300;
+    titleText->setPos(txPos,tyPos);
+    scene->addItem(titleText);
+
+    // create buttons for resolution
+    Button* res1Button = new Button(QString("1920X1080"));
+    int bxPos = this->width()/2 - res1Button->boundingRect().width()/2;
+    int byPos = 600;
+    res1Button->setPos(bxPos,byPos);
+    connect(res1Button,SIGNAL(clicked()),this,SLOT(displayMainMenu(1920, 1080);));
+    scene->addItem(res1Button);
+
+    Button* res2Button = new Button(QString("1280x780"));
+    int qxPos = this->width()/2 - res2Button->boundingRect().width()/2;
+    int qyPos = 800;
+    res2Button->setPos(qxPos,qyPos);
+    connect(res2Button,SIGNAL(clicked()),this,SLOT(diisplayMainMenu(1280,720);));
+    scene->addItem(res2Button);
+}
+*/
 
 void Game::start(){
     // clear the screen
@@ -99,7 +128,10 @@ void Game::drawPanel(int x, int y, int width, int height, QColor color, double o
     panel->setOpacity(opacity);
     scene->addItem(panel);
 }
+
+
 void Game::displayMainMenu(){
+    scene->clear();
     // create the title text
     QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("Magical Destruction Force MKZ  XVII"));
     QFont titleFont("comic sans",30);

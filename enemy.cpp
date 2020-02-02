@@ -9,7 +9,7 @@ extern Game * game;
 
 Enemy::Enemy(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
     //set random x position
-    int random_number = rand() % 1450;
+    int random_number = rand() % game->screenWidth - 50;
     setPos(random_number,0);
 
     // drew the rect and sizes it
@@ -41,17 +41,17 @@ void Enemy::setTimer(QTimer *timers)
 
 
 void Enemy::move(){
-    if (pos().x() > 1500 && pos().y() < 500){
+    if (pos().x() > game->screenWidth && pos().y() < 500){
         setPos(0,y());
     }
     if (pos().x() < 0 && pos().y() < 500){
-        setPos(1500,y());
+        setPos(game->screenWidth,y());
     }
     // move enemy down
         setPos(x()-direction,y()+3);
 
     // destroy enemy when it goes out of the screen
-    if (pos().y() > 1100){
+    if (pos().y() > game->screenHeight -100){
 
         //decrease the health
         game->health->decrease();
