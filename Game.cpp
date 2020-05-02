@@ -134,6 +134,8 @@ void Game::displayMainMenu(){
     scene->clear();
     // create the title text
     QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("Magical Destruction Force MKZ  XVII"));
+    QColor titleColors("White");
+    titleText->setDefaultTextColor(titleColors);
     QFont titleFont("comic sans",30);
     titleText->setFont(titleFont);
     int txPos = this->width()/2 - titleText->boundingRect().width()/2;
@@ -143,6 +145,8 @@ void Game::displayMainMenu(){
 
     // create the author
     QGraphicsTextItem* titleTexts = new QGraphicsTextItem(QString("By H&A inc."));
+    QColor titleColor("White");
+    titleTexts->setDefaultTextColor(titleColor);
     QFont titleFonts("comic sans",15);
     titleTexts->setFont(titleFonts);
     int txPoss = this->width()/2 - titleTexts->boundingRect().width()/2;
