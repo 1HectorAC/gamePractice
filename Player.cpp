@@ -43,17 +43,15 @@ void Player::keyPressEvent(QKeyEvent *event){
 
     }
     else if (event->key() == Qt::Key_V){
-
-   //      create a bullet
         if (game->limits->getLimit() > 0 && game->powBulletCheck != 0 ){
             Bullet2 * bullets = new Bullet2();
+            bullets->setTimer(shotTime);
             bullets->setPos(x()-25,y());
             scene()->addItem(bullets);
             game->limits->decrease();
             game->powBulletCheck = 0;
             //game->health->increase();
         }
-
     }
 }
 

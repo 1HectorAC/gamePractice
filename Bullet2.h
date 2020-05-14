@@ -9,6 +9,8 @@ class Bullet2: public QObject,public QGraphicsPixmapItem {
     Q_OBJECT
 public:
     Bullet2(QGraphicsItem * parent=0);
+    void setTimer(QTimer *timers);
+
 public slots:
     void move();
 };
