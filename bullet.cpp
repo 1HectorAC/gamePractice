@@ -1,18 +1,20 @@
 #include "Bullet.h"
+#include "Enemy.h"
+#include "Game.h"
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QList>
-#include "Enemy.h"
-#include "Game.h"
 #include <typeinfo>
 
-extern Game * game; // there is an external global object called game
+extern Game * game;
 
 Bullet::Bullet(int bulletType, QGraphicsItem *parent)
     : QObject(), QGraphicsPixmapItem(parent){
-    //bullet
 
+    // Setup type of bullet used, normal(0) or slow big(1).
     this->bulletType = bulletType;
+
+    // Setup speed and image of bullet based on type.
     if(bulletType == 0){
         QImage image("images/singleround.png");
         setPixmap(QPixmap::fromImage(image.scaled(125,170)));
@@ -27,35 +29,39 @@ Bullet::Bullet(int bulletType, QGraphicsItem *parent)
 }
 
 void Bullet::move(){
-    // get a list of all the items currently colliding with this bullet
+    // Get a list of all the items currently colliding with this bullet.
     QList<QGraphicsItem *> colliding_items = collidingItems();
 
-  //   if one of the colliding items is an Enemy, destroy both the bullet and the enemy
+  // If one of the colliding items is an Enemy act accordingly (destroy enemy and maybe bullet depending on type)
     for (int i = 0, n = colliding_items.size(); i < n; ++i){
         if (typeid(*(colliding_items[i])) == typeid(Enemy)){
-            // increase the score
+            // Increase the score.
             game->score->increase2();
 
-            // remove them from the scene (still on the heap)
+
+
+            // Remove and delete collided item.
             scene()->removeItem(colliding_items[i]);
+            delete colliding_items[i];
+
+            // Remove and delete bullet if a certain bullet type.
             if(bulletType == 0){
                 scene()->removeItem(this);
+                delete this;
             }
 
-            // delete them from the heap to save memory
-            delete colliding_items[i];
-            if(bulletType == 0){
-            delete this;
-            }
-            // return (all code below refers to a non existint bullet)
             return;
         }
     }
-    // if there was no collision with an Enemy, move the bullet forward
+
+    // If there was no collision with an Enemy, move the bullet forward
         setPos(x(),y()-speed);
-    // if the bullet is off the screen, destroy it
+
+    // If the bullet is off the screen, destroy it.
     if (pos().y() < 0){
         scene()->removeItem(this);
+
+        // Increase powBulletCheck depending on the bulletType.
         if(bulletType == 1){
             game->powBulletCheck =1;
         }
@@ -63,7 +69,7 @@ void Bullet::move(){
     }
 }
 
-void Bullet::setTimer(QTimer *timers)
-{
+// Add movement timer.
+void Bullet::setTimer(QTimer *timers){
     connect(timers,SIGNAL(timeout()),this,SLOT(move()));
 }
