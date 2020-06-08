@@ -35,7 +35,7 @@ void Player::keyPressEvent(QKeyEvent *event){
              event->key() == Qt::Key_B){
 
    //      create a bullet
-        Bullet * bullet = new Bullet();
+        Bullet * bullet = new Bullet(0);
         bullet->setTimer(shotTime);
         bullet->setPos(x()+1,y());
         scene()->addItem(bullet);
@@ -44,7 +44,7 @@ void Player::keyPressEvent(QKeyEvent *event){
     }
     else if (event->key() == Qt::Key_V){
         if (game->limits->getLimit() > 0 && game->powBulletCheck != 0 ){
-            Bullet2 * bullets = new Bullet2();
+            Bullet * bullets = new Bullet(1);
             bullets->setTimer(shotTime);
             bullets->setPos(x()-25,y());
             scene()->addItem(bullets);
