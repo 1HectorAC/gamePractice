@@ -20,7 +20,6 @@ SOURCES += main.cpp \
     Health.cpp \
     Score.cpp \
     Button.cpp \
-    Bullet2.cpp \
     Limiter.cpp
 
 HEADERS  += \
@@ -31,7 +30,6 @@ HEADERS  += \
     Health.h \
     Score.h \
     Button.h \
-    Bullet2.h \
     Limiter.h
 
 FORMS    += mainwindow.ui
