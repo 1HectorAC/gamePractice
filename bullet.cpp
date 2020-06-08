@@ -25,20 +25,17 @@ Bullet::Bullet(int bulletType, QGraphicsItem *parent)
         setPixmap(QPixmap::fromImage(image.scaled(250,100)));
         speed = 2;
     }
-
 }
 
 void Bullet::move(){
     // Get a list of all the items currently colliding with this bullet.
     QList<QGraphicsItem *> colliding_items = collidingItems();
 
-  // If one of the colliding items is an Enemy act accordingly (destroy enemy and maybe bullet depending on type)
+    // If one of the colliding items is an Enemy act accordingly (destroy enemy and maybe bullet depending on type)
     for (int i = 0, n = colliding_items.size(); i < n; ++i){
         if (typeid(*(colliding_items[i])) == typeid(Enemy)){
             // Increase the score.
             game->score->increase2();
-
-
 
             // Remove and delete collided item.
             scene()->removeItem(colliding_items[i]);
@@ -49,13 +46,12 @@ void Bullet::move(){
                 scene()->removeItem(this);
                 delete this;
             }
-
             return;
         }
     }
 
     // If there was no collision with an Enemy, move the bullet forward
-        setPos(x(),y()-speed);
+    setPos(x(),y()-speed);
 
     // If the bullet is off the screen, destroy it.
     if (pos().y() < 0){
