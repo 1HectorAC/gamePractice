@@ -2,17 +2,17 @@
 #include <QGraphicsTextItem>
 #include <QBrush>
 #include <QFont>
+
 Button::Button(QString name, QGraphicsItem *parent): QGraphicsRectItem(parent){
-    // draw the rect
+    // Draw the rectangle.
     setRect(0,0,300,100);
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
 
     brush.setColor(Qt::darkCyan);
-//    brush.setColor(Qt::darkRed);
     setBrush(brush);
 
-    // draw the text
+    // Draw the text.
     text = new QGraphicsTextItem(name,this);
 
     QFont titleFont("comic sans",18);
@@ -23,7 +23,7 @@ Button::Button(QString name, QGraphicsItem *parent): QGraphicsRectItem(parent){
     text->setPos(xPos,yPos);
 
 
-    // allow responding to hover events
+    // Allow responding to hover events.
     setAcceptHoverEvents(true);
 }
 
@@ -32,7 +32,7 @@ void Button::mousePressEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void Button::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
-    // change color to cyan
+    //Cchange color to cyan.
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::cyan);
@@ -40,7 +40,7 @@ void Button::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
 }
 
 void Button::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
-    // change color to dark cyan
+    // Change color to dark cyan.
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::darkCyan);
