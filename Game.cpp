@@ -70,8 +70,9 @@ void Game::start(){
     QImage stuff("images/background1.png");
     setBackgroundBrush(QBrush(stuff.scaled(screenWidth,screenHeight)));
     // create the player
-    player = new Player();
-    player->setPos(screenWidth/2 - 100, screenHeight - 100); // TODO generalize to always be in the middle bottom of screen
+    player = new Player(screenHeight / 10 * 2, screenHeight / 10);
+    // Position set to bottom center of screen.
+    player->setPos(screenWidth/2 - (screenHeight/ 10), screenHeight - (screenHeight/10)); // TODO generalize to always be in the middle bottom of screen
     // make the player focusable and set it to be the current focus
     player->setFlag(QGraphicsItem::ItemIsFocusable);
     player->setFocus();

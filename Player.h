@@ -10,9 +10,12 @@
 class Player:public QObject, public QGraphicsPixmapItem{
     Q_OBJECT
 public:
-    Player(QGraphicsItem * parent=0);
+    Player(int width, int height, QGraphicsItem * parent=0);
     void keyPressEvent(QKeyEvent * event);
     QTimer * shotTime;
+
+    int width;
+    int height;
 public slots:
     void spawn();
 //private:

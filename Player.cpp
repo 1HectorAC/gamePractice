@@ -1,56 +1,61 @@
 #include "Player.h"
-#include <QGraphicsScene>
-#include <QKeyEvent>
 #include "Bullet.h"
-#include "Bullet2.h"
 #include "Enemy.h"
 #include "Game.h"
-
+#include <QGraphicsScene>
+#include <QKeyEvent>
 
 extern Game * game;
-Player::Player(QGraphicsItem *parent): QGraphicsPixmapItem(parent){
+Player::Player(int width, int height, QGraphicsItem *parent): QGraphicsPixmapItem(parent){
 
-    // set graphic
+    this->width = width;
+    this->height = height;
+    // Set player graphic.
     QImage image("images/player1.png");
-    setPixmap(QPixmap::fromImage(image.scaled(200,100)));
+    setPixmap(QPixmap::fromImage(image.scaled(width, height)));
 
-    //setPixmap(QPixmap("player.png"));
+    // Setup timer for shots.
     shotTime = new QTimer(this);
     shotTime->start(7);
 
 }
 
 void Player::keyPressEvent(QKeyEvent *event){
+    // Move left if x position not past left boundary.
     if (event->key() == Qt::Key_Left){
         if (pos().x() > 0)
-            setPos(x()-150,y());
+            setPos(x()-(height * 1.4),y());
     }
+    // Move right if x position not past right boundary.
     else if (event->key() == Qt::Key_Right){
-        if (pos().x() < game->screenWidth - 300)
-            setPos(x()+150,y());
+        if (pos().x() < game->screenWidth - (height * 2.8))
+            setPos(x()+(height * 1.4) ,y());
     }
 
-   //  shoot with the spacebar
+   // Shoot bullet.
     else if (event->key() == Qt::Key_Space ||
              event->key() == Qt::Key_B){
 
-   //      create a bullet
+   // Create a bullet.
         Bullet * bullet = new Bullet(0);
         bullet->setTimer(shotTime);
-        bullet->setPos(x()+1,y());
+        // Adjust position to be at the center of player.
+        bullet->setPos(x()+height/2.2,y());
         scene()->addItem(bullet);
 
 
     }
+    //Shot a stronger bullet.
     else if (event->key() == Qt::Key_V){
+        // Check if player has a strong shot with the limits count and if one is already on screen with powBulletCheck before firing.
         if (game->limits->getLimit() > 0 && game->powBulletCheck != 0 ){
             Bullet * bullets = new Bullet(1);
             bullets->setTimer(shotTime);
-            bullets->setPos(x()-25,y());
+            // Adjust position to be at the center of player.
+            bullets->setPos(x()-height/4,y());
             scene()->addItem(bullets);
             game->limits->decrease();
             game->powBulletCheck = 0;
-            //game->health->increase();
         }
     }
 }
@@ -59,20 +64,17 @@ void Player::keyPressEvent(QKeyEvent *event){
 
 void Player::spawn(){
 
-    // create an enemy
+    // Create an enemy.
     Enemy * enemy = new Enemy();
     enemy->setTimer(game->ti );
     scene()->addItem(enemy);
     int check = rand() % 4;
+    // Make more enemies when reach a certain score.
     if (game->score->getScore() > 50 && check == 1){
         Enemy * enemy2 = new Enemy();
         enemy2->setTimer(game->ti );
         scene()->addItem(enemy2);
 
     }
-//    if (game->score->getScore() > 10){
-//        Enemy * enemy3 = new Enemy();
-//        scene()->addItem(enemy3);
-//    }
-   // scene()->addItem(enemy);
+
 }
