@@ -134,7 +134,7 @@ void Game::drawPanel(int x, int y, int width, int height, QColor color, double o
 void Game::displayMainMenu(){
     scene->clear();
     // create the title text
-    QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("Magical Destruction Force MKZ  XVII"));
+    QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("Falling Rock Destroyer"));
     QColor titleColors("White");
     titleText->setDefaultTextColor(titleColors);
     QFont titleFont("comic sans",30);
