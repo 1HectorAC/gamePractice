@@ -16,11 +16,11 @@ SOURCES += main.cpp \
     Bullet.cpp \
     Game.cpp \
     Player.cpp \
-    Enemy.cpp \
     Health.cpp \
     Score.cpp \
     Button.cpp \
-    Limiter.cpp
+    Limiter.cpp \
+    Enemy.cpp
 
 HEADERS  += \
     Bullet.h \
