@@ -8,10 +8,11 @@
 class Enemy: public QObject,public QGraphicsPixmapItem{
     Q_OBJECT
 public:
-    Enemy(QGraphicsItem * parent=0);
+    Enemy(int length, QGraphicsItem * parent=0);
     void setTimer(QTimer  *timers);
 private:
     int direction;
+    int length;
 public slots:
     void move();
 

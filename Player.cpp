@@ -65,13 +65,13 @@ void Player::keyPressEvent(QKeyEvent *event){
 void Player::spawn(){
 
     // Create an enemy.
-    Enemy * enemy = new Enemy();
+    Enemy * enemy = new Enemy(height);
     enemy->setTimer(game->ti );
     scene()->addItem(enemy);
     int check = rand() % 4;
     // Make more enemies when reach a certain score.
     if (game->score->getScore() > 50 && check == 1){
-        Enemy * enemy2 = new Enemy();
+        Enemy * enemy2 = new Enemy(height);
         enemy2->setTimer(game->ti );
         scene()->addItem(enemy2);
 
