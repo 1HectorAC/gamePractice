@@ -11,12 +11,15 @@ Limiter::Limiter(QGraphicsItem *parent)
     setFont(QFont("times",16));
 }
 
+// Decrease Limit value if above 0 and display it.
 void Limiter::decrease(){
     if (limit > 0){
         limit--;
         setPlainText(QString("Shot Limit: ") + QString::number(limit) + QString("/3"));
     }
 }
+
+// Increase Limit value if below 3 and display it.
 void Limiter::increase(){
     if (limit < 3){
         limit++;
@@ -24,6 +27,7 @@ void Limiter::increase(){
     }
 }
 
+// Get limit value.
 int Limiter::getLimit(){
     return limit;
 }
