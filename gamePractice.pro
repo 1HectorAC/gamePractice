@@ -13,24 +13,24 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    Bullet.cpp \
     Game.cpp \
     Player.cpp \
     Health.cpp \
     Score.cpp \
     Button.cpp \
     Limiter.cpp \
-    Enemy.cpp
+    Enemy.cpp \
+    Bullet.cpp
 
 HEADERS  += \
-    Bullet.h \
     Player.h \
     Game.h \
     Enemy.h \
     Health.h \
     Score.h \
     Button.h \
-    Limiter.h
+    Limiter.h \
+    Bullet.h
 
 FORMS    += mainwindow.ui
 
