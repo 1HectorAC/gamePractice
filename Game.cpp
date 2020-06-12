@@ -1,29 +1,25 @@
 #include "Game.h"
+#include "Enemy.h"
+#include "Button.h"
+#include "score.h"
+#include "Limiter.h"
 #include <QTimer>
 #include <QGraphicsTextItem>
 #include <QFont>
-#include "Enemy.h"
 #include <QtMultimedia/QMediaPlayer>
-#include "Button.h"
 #include <QBrush>
 #include <QImage>
-#include <score.h>
-#include "Limiter.h"
 #include <random>
 
 using namespace std;
 Game::Game(QWidget *parent){
 
-    // create the scene
+    // Create the scene.
     scene = new QGraphicsScene();
     screenWidth = 1920;
     screenHeight = 1080;
-    //can change to 1920x1080, 1280x720
 
     scene->setSceneRect(0,0,screenWidth,screenHeight);
-
-    // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
-    // it can be used to visualize scenes)
 
     setScene(scene);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -32,86 +28,59 @@ Game::Game(QWidget *parent){
 
 }
 
-/*
-//function will display screen to edit screen size
-void Game::setGameSizeScreen(){
-    // create the title text
-    QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("Set game screen resolution"));
-    QFont titleFont("comic sans",20);
-    titleText->setFont(titleFont);
-    int txPos = this->width()/2 - titleText->boundingRect().width()/2;
-    int tyPos = 300;
-    titleText->setPos(txPos,tyPos);
-    scene->addItem(titleText);
-
-    // create buttons for resolution
-    Button* res1Button = new Button(QString("1920X1080"));
-    int bxPos = this->width()/2 - res1Button->boundingRect().width()/2;
-    int byPos = 600;
-    res1Button->setPos(bxPos,byPos);
-    connect(res1Button,SIGNAL(clicked()),this,SLOT(displayMainMenu(1920, 1080);));
-    scene->addItem(res1Button);
-
-    Button* res2Button = new Button(QString("1280x780"));
-    int qxPos = this->width()/2 - res2Button->boundingRect().width()/2;
-    int qyPos = 800;
-    res2Button->setPos(qxPos,qyPos);
-    connect(res2Button,SIGNAL(clicked()),this,SLOT(diisplayMainMenu(1280,720);));
-    scene->addItem(res2Button);
-}
-*/
-
 void Game::start(){
-    // clear the screen
+    // Clear the screen. Need to do for restarting a game.
     scene->clear();
     check1 = 2;
     powBulletCheck =1;
-    //set background image with resize
+
+    // Set background image.
     QImage stuff("images/background1.png");
     setBackgroundBrush(QBrush(stuff.scaled(screenWidth,screenHeight)));
-    // create the player
+
+    // Create the player.
     player = new Player(screenHeight / 10 * 2, screenHeight / 10);
     // Position set to bottom center of screen.
-    player->setPos(screenWidth/2 - (screenHeight/ 10), screenHeight - (screenHeight/10)); // TODO generalize to always be in the middle bottom of screen
-    // make the player focusable and set it to be the current focus
+    player->setPos(screenWidth/2 - (screenHeight/ 10), screenHeight - (screenHeight/10));
+    // Make the player focusable and set it to be the current focus.
     player->setFlag(QGraphicsItem::ItemIsFocusable);
     player->setFocus();
 
-    // add the player to the scene
+    // Add the player to the scene.
     scene->addItem(player);
 
-    // create the score/health
+    // Add score to scene.
     score = new Score();
     scene->addItem(score);
 
+    //Add health to scene.
     health = new Health();
     health->setPos(health->x(),health->y()+40);
     scene->addItem(health);
 
+    //Add limit to scene.
     limits = new Limiter();
     limits->setPos(limits->x(),limits->y()+80);
     scene->addItem(limits);
 
-    // spawn enemies
+    // Spawn enemies.
     timer = new QTimer();
     QObject::connect(timer,SIGNAL(timeout()),player,SLOT(spawn()));
     timer->start(3500);
 
-//enemy 2
+    // Spawn more enemies.
     QTimer * time = new QTimer();
     QObject::connect(time,SIGNAL(timeout()),player,SLOT(spawn()));
     time->start(3000);
 
-//    QTimer * tim = new QTimer();
-//    QObject::connect(tim,SIGNAL(timeout()),player,SLOT(spawn()));
-//    tim->start(400);
-// game over check
+    // Game over check.
     ti = new QTimer();
     QObject::connect(ti,SIGNAL(timeout()),this,SLOT(gameOver()));
     ti->start(10);
-    // play background music
-     beginMusic->setMedia(QUrl::fromLocalFile("music/basic.mp3"));
-     beginMusic->play();
+
+    // Play background music.
+    beginMusic->setMedia(QUrl::fromLocalFile("music/basic.mp3"));
+    beginMusic->play();
     show();
 
 }
@@ -120,7 +89,7 @@ void Game::restartGame(){
     start();
 }
 void Game::drawPanel(int x, int y, int width, int height, QColor color, double opacity){
-    // draws a panel at the specified location with the specified properties
+    // Draws a panel at the specified location with the specified properties.
     QGraphicsRectItem* panel = new QGraphicsRectItem(x,y,width,height);
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
@@ -133,7 +102,7 @@ void Game::drawPanel(int x, int y, int width, int height, QColor color, double o
 
 void Game::displayMainMenu(){
     scene->clear();
-    // create the title text
+    // Create the title text.
     QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("Falling Rock Destroyer"));
     QColor titleColors("White");
     titleText->setDefaultTextColor(titleColors);
@@ -144,7 +113,7 @@ void Game::displayMainMenu(){
     titleText->setPos(txPos,tyPos);
     scene->addItem(titleText);
 
-    // create the author
+    // Create the author.
     QGraphicsTextItem* titleTexts = new QGraphicsTextItem(QString("By H&A inc."));
     QColor titleColor("White");
     titleTexts->setDefaultTextColor(titleColor);
@@ -156,7 +125,7 @@ void Game::displayMainMenu(){
     scene->addItem(titleTexts);
 
 
-    // create the play button
+    // Create the play button.
     Button* playButton = new Button(QString("Play"));
     int bxPos = this->width()/2 - playButton->boundingRect().width()/2;
     int byPos = 600;
@@ -164,25 +133,28 @@ void Game::displayMainMenu(){
     connect(playButton,SIGNAL(clicked()),this,SLOT(start()));
     scene->addItem(playButton);
 
-    // create the quit button
+    // Create the quit button.
     Button* quitButton = new Button(QString("Quit"));
     int qxPos = this->width()/2 - quitButton->boundingRect().width()/2;
     int qyPos = 800;
     quitButton->setPos(qxPos,qyPos);
     connect(quitButton,SIGNAL(clicked()),this,SLOT(close()));
     scene->addItem(quitButton);
-    //begining start music
+
+    // Begining start music.
     beginMusic = new QMediaPlayer();
-    //Roku
     beginMusic->setMedia(QUrl::fromLocalFile("music/intro.mp3"));
     beginMusic->setVolume(60);
     beginMusic->play();
 
+    // Set background image.
     QImage stuff("images/startmenu.png");
     setBackgroundBrush(QBrush(stuff.scaled(screenWidth,screenHeight)));
-
 }
+
+
 void Game::gameOver(){
+    //Add more enemies after a certain score. The check is there to prevent it from being called more than once.
     if(check1 == 2 && score->getScore() > 20){
         QTimer * time = new QTimer();
         QObject::connect(time,SIGNAL(timeout()),player,SLOT(spawn()));
@@ -195,6 +167,8 @@ void Game::gameOver(){
         tim->start(1800);
         check1--;
     }
+
+    //Check if health is down to 0 or below and display game over.
     if (health->getHealth() <= 0){
         QString messege;
         QString scores;
@@ -205,30 +179,28 @@ void Game::gameOver(){
         displayGameOverWindow(messege, scores);
         beginMusic->setMedia(QUrl::fromLocalFile("music/gameOver.mp3"));
         beginMusic->play();
-
     }
-
-
 }
+
 void Game::displayGameOverWindow(QString textToDisplay, QString scores){
-    // disable all scene items
+    // Disable all scene items.
     for (size_t i = 0, n = scene->items().size(); i < n; i++){
         scene->items()[i]->setEnabled(false);
     }
 
-    // pop up semi transparent panel
+    // Pop up semi transparent panel.
     drawPanel(0,0,screenWidth,screenHeight,Qt::black,0.65);
 
-    // draw panel
+    // Draw panel.
     drawPanel(400,300,screenWidth/2,screenHeight/2,Qt::lightGray,0.75);
 
-    // create playAgain button
+    // Create playAgain button.
     Button* playAgain = new Button(QString("Play Again"));
     playAgain->setPos(600,500);
     scene->addItem(playAgain);
     connect(playAgain,SIGNAL(clicked()),this,SLOT(restartGame()));
 
-    // create quit button
+    // Create quit button.
     Button* quit = new Button(QString("Quit"));
     quit->setPos(600,700);
     scene->addItem(quit);
@@ -240,7 +212,7 @@ void Game::displayGameOverWindow(QString textToDisplay, QString scores){
     overText->setFont(titleFont);
     scene->addItem(overText);
 
-    //report score
+    // Report score.
     QGraphicsTextItem* displayScore = new QGraphicsTextItem(scores);
     displayScore->setPos(630,400);
     displayScore->setFont(titleFont);
