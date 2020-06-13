@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     Button.cpp \
     Limiter.cpp \
     Enemy.cpp \
-    Bullet.cpp
+    Bullet.cpp \
+    EnemyManager.cpp
 
 HEADERS  += \
     Player.h \
@@ -30,7 +31,8 @@ HEADERS  += \
     Score.h \
     Button.h \
     Limiter.h \
-    Bullet.h
+    Bullet.h \
+    EnemyManager.h
 
 FORMS    += mainwindow.ui
 

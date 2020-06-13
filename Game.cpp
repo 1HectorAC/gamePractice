@@ -31,7 +31,6 @@ Game::Game(QWidget *parent){
 void Game::start(){
     // Clear the screen. Need to do for restarting a game.
     scene->clear();
-    check1 = 2;
     powBulletCheck =1;
 
     // Set background image.
@@ -63,15 +62,9 @@ void Game::start(){
     limits->setPos(limits->x(),limits->y()+80);
     scene->addItem(limits);
 
-    // Spawn enemies.
-    timer = new QTimer();
-    QObject::connect(timer,SIGNAL(timeout()),player,SLOT(spawn()));
-    timer->start(3500);
-
-    // Spawn more enemies.
-    QTimer * time = new QTimer();
-    QObject::connect(time,SIGNAL(timeout()),player,SLOT(spawn()));
-    time->start(3000);
+    // Add enemyManager to manage enemies spawned.
+    enemyManager = new EnemyManager();
+    scene->addItem(enemyManager);
 
     // Game over check.
     ti = new QTimer();
@@ -154,20 +147,6 @@ void Game::displayMainMenu(){
 
 
 void Game::gameOver(){
-    //Add more enemies after a certain score. The check is there to prevent it from being called more than once.
-    if(check1 == 2 && score->getScore() > 20){
-        QTimer * time = new QTimer();
-        QObject::connect(time,SIGNAL(timeout()),player,SLOT(spawn()));
-        time->start(1000);
-        check1--;
-    }
-    if(check1 == 1 && score->getScore() > 30){
-        QTimer * tim = new QTimer();
-        QObject::connect(tim,SIGNAL(timeout()),player,SLOT(spawn()));
-        tim->start(1800);
-        check1--;
-    }
-
     //Check if health is down to 0 or below and display game over.
     if (health->getHealth() <= 0){
         QString messege;
