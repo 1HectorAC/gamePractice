@@ -9,6 +9,8 @@ class EnemyManager: public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 public:
     EnemyManager(QGraphicsItem * parent=0);
+    void addEnemy();
+
     QTimer * enemySpawnTimer;
     QTimer * enemyMoveTimer;
 public slots:

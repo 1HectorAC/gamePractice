@@ -3,7 +3,6 @@
 #include "Game.h"
 #include <QGraphicsScene>
 
-
 extern Game * game;
 
 EnemyManager::EnemyManager(QGraphicsItem *parent): QGraphicsPixmapItem(parent){
@@ -20,43 +19,40 @@ EnemyManager::EnemyManager(QGraphicsItem *parent): QGraphicsPixmapItem(parent){
 }
 
 void EnemyManager::spawn(){
-
     // Create an enemy.
-    Enemy * enemy = new Enemy(108);
-    enemy->setTimer(enemyMoveTimer);
-    scene()->addItem(enemy);
+    addEnemy();
 
-    // Adjust chance of more enemies spawn and spawn speed based on current score.
+    // Adjust chance of more enemies spawning and spawn speed based on current score.
     int score = game->score->getScore();
     if(score > 60){
         enemySpawnTimer->setInterval(500);
         int check = rand() % 4;
-        // Make more enemies when reach a certain score.
+        // Three in four change to add extra enemy.
         if (check < 3){
-            Enemy * enemy2 = new Enemy(108);
-            enemy2->setTimer(enemyMoveTimer );
-            scene()->addItem(enemy2);
+            addEnemy();
         }
     }
     else if(score > 40){
         enemySpawnTimer->setInterval(800);
         int check = rand() % 4;
-        // Make more enemies when reach a certain score.
+        // One in two change to add extra enemy.
         if (check < 2){
-            Enemy * enemy2 = new Enemy(108);
-            enemy2->setTimer(enemyMoveTimer );
-            scene()->addItem(enemy2);
+            addEnemy();
         }
     }
     else if(score > 20){
         enemySpawnTimer->setInterval(1300);
         int check = rand() % 4;
-        // Make more enemies when reach a certain score.
+        // One in four change to add extra enemy.
         if (check < 1){
-            Enemy * enemy2 = new Enemy(108);
-            enemy2->setTimer(enemyMoveTimer );
-            scene()->addItem(enemy2);
+            addEnemy();
         }
     }
+}
 
+// Add an enemy to the scene.
+void EnemyManager::addEnemy(){
+    Enemy * enemy = new Enemy(108);
+    enemy->setTimer(enemyMoveTimer );
+    scene()->addItem(enemy);
 }
