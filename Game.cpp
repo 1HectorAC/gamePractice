@@ -67,9 +67,9 @@ void Game::start(){
     scene->addItem(enemyManager);
 
     // Game over check.
-    ti = new QTimer();
-    QObject::connect(ti,SIGNAL(timeout()),this,SLOT(gameOver()));
-    ti->start(10);
+    gameOverTimer = new QTimer();
+    QObject::connect(gameOverTimer,SIGNAL(timeout()),this,SLOT(gameOver()));
+    gameOverTimer->start(10);
 
     // Play background music.
     beginMusic->setMedia(QUrl::fromLocalFile("music/basic.mp3"));
@@ -77,10 +77,12 @@ void Game::start(){
     show();
 
 }
+
 void Game::restartGame(){
     scene->clear();
     start();
 }
+
 void Game::drawPanel(int x, int y, int width, int height, QColor color, double opacity){
     // Draws a panel at the specified location with the specified properties.
     QGraphicsRectItem* panel = new QGraphicsRectItem(x,y,width,height);
@@ -91,7 +93,6 @@ void Game::drawPanel(int x, int y, int width, int height, QColor color, double o
     panel->setOpacity(opacity);
     scene->addItem(panel);
 }
-
 
 void Game::displayMainMenu(){
     scene->clear();
@@ -145,23 +146,20 @@ void Game::displayMainMenu(){
     setBackgroundBrush(QBrush(stuff.scaled(screenWidth,screenHeight)));
 }
 
-
 void Game::gameOver(){
     //Check if health is down to 0 or below and display game over.
     if (health->getHealth() <= 0){
-        QString messege;
-        QString scores;
-        ti->stop();
-        scores = QString("Total Score: ")+QString::number(score->getScore());
-        messege = "Game Over";
+        //Stop gameover check timer.
+        gameOverTimer->stop();
+        int totalScore = score->getScore();
         scene->clear();
-        displayGameOverWindow(messege, scores);
+        displayGameOverWindow(totalScore);
         beginMusic->setMedia(QUrl::fromLocalFile("music/gameOver.mp3"));
         beginMusic->play();
     }
 }
 
-void Game::displayGameOverWindow(QString textToDisplay, QString scores){
+void Game::displayGameOverWindow(int totalScore){
     // Disable all scene items.
     for (size_t i = 0, n = scene->items().size(); i < n; i++){
         scene->items()[i]->setEnabled(false);
@@ -174,14 +172,14 @@ void Game::displayGameOverWindow(QString textToDisplay, QString scores){
     drawPanel(screenWidth/4,screenHeight/4,screenWidth/2,screenHeight/2,Qt::lightGray,0.75);
 
     // Game over title display
-    QGraphicsTextItem* overText = new QGraphicsTextItem(textToDisplay);
+    QGraphicsTextItem* overText = new QGraphicsTextItem( "Game Over");
     QFont titleFont("comic sans",18);
     overText->setFont(titleFont);
     overText->setPos(screenWidth/2 - overText->boundingRect().width() / 2, screenHeight / 3.3);
     scene->addItem(overText);
 
     // Report score.
-    QGraphicsTextItem* displayScore = new QGraphicsTextItem(scores);
+    QGraphicsTextItem* displayScore = new QGraphicsTextItem(QString("Total Score: ")+QString::number(totalScore) );
     displayScore->setFont(titleFont);
     displayScore->setPos(screenWidth/2 - displayScore->boundingRect().width()  / 2, screenHeight / 2.8);
     scene->addItem(displayScore);
@@ -197,7 +195,5 @@ void Game::displayGameOverWindow(QString textToDisplay, QString scores){
     quit->setPos(screenWidth/2 - quit->rect().width() / 2, screenHeight/1.6);
     scene->addItem(quit);
     connect(quit,SIGNAL(clicked()),this,SLOT(close()));
-
-
 
 }

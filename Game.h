@@ -21,7 +21,7 @@ public:
  //////////////////////
 
     void displayMainMenu();
-    void displayGameOverWindow(QString textToDisplay, QString scores);
+    void displayGameOverWindow(int totalScore);
 
     QGraphicsScene * scene;
     Player * player;
@@ -30,8 +30,7 @@ public:
     Limiter * limits;
     EnemyManager * enemyManager;
     QMediaPlayer * beginMusic;
-    QTimer * ti;
-    QTimer * timer;
+    QTimer * gameOverTimer;
 
     int screenHeight;
     int screenWidth;
