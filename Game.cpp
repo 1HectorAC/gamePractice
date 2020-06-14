@@ -171,30 +171,33 @@ void Game::displayGameOverWindow(QString textToDisplay, QString scores){
     drawPanel(0,0,screenWidth,screenHeight,Qt::black,0.65);
 
     // Draw panel.
-    drawPanel(400,300,screenWidth/2,screenHeight/2,Qt::lightGray,0.75);
+    drawPanel(screenWidth/4,screenHeight/4,screenWidth/2,screenHeight/2,Qt::lightGray,0.75);
+
+    // Game over title display
+    QGraphicsTextItem* overText = new QGraphicsTextItem(textToDisplay);
+    QFont titleFont("comic sans",18);
+    overText->setFont(titleFont);
+    overText->setPos(screenWidth/2 - overText->boundingRect().width() / 2, screenHeight / 3.3);
+    scene->addItem(overText);
+
+    // Report score.
+    QGraphicsTextItem* displayScore = new QGraphicsTextItem(scores);
+    displayScore->setFont(titleFont);
+    displayScore->setPos(screenWidth/2 - displayScore->boundingRect().width()  / 2, screenHeight / 2.8);
+    scene->addItem(displayScore);
 
     // Create playAgain button.
     Button* playAgain = new Button(QString("Play Again"));
-    playAgain->setPos(600,500);
+    playAgain->setPos(screenWidth/2 - playAgain->rect().width() / 2,screenHeight/2.1);
     scene->addItem(playAgain);
     connect(playAgain,SIGNAL(clicked()),this,SLOT(restartGame()));
 
     // Create quit button.
     Button* quit = new Button(QString("Quit"));
-    quit->setPos(600,700);
+    quit->setPos(screenWidth/2 - quit->rect().width() / 2, screenHeight/1.6);
     scene->addItem(quit);
     connect(quit,SIGNAL(clicked()),this,SLOT(close()));
 
-    QGraphicsTextItem* overText = new QGraphicsTextItem(textToDisplay);
-    overText->setPos(630,350);
-    QFont titleFont("comic sans",18);
-    overText->setFont(titleFont);
-    scene->addItem(overText);
 
-    // Report score.
-    QGraphicsTextItem* displayScore = new QGraphicsTextItem(scores);
-    displayScore->setPos(630,400);
-    displayScore->setFont(titleFont);
-    scene->addItem(displayScore);
 
 }
