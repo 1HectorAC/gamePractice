@@ -7,7 +7,7 @@ Health::Health(QGraphicsItem *parent)
 
     // Draw text of health.
     setPlainText(QString("Health: ") + QString::number(health));
-    setDefaultTextColor(Qt::red);
+    setDefaultTextColor(Qt::white);
     setFont(QFont("times",16));
 }
 

@@ -7,7 +7,7 @@ Limiter::Limiter(QGraphicsItem *parent)
 {
     limit = 3;
     setPlainText(QString("Shot Limit: ") + QString::number(limit) + QString("/3"));
-    setDefaultTextColor(Qt::red);
+    setDefaultTextColor(Qt::white);
     setFont(QFont("times",16));
 }
 

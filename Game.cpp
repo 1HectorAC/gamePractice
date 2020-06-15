@@ -48,18 +48,22 @@ void Game::start(){
     // Add the player to the scene.
     scene->addItem(player);
 
+    // Draw panel for score,health, and limiter.
+    drawPanel(0,0,screenWidth,screenHeight/16,Qt::darkCyan,0.45);
+
     // Add score to scene.
     score = new Score();
+    score->setPos(10, score->y());
     scene->addItem(score);
 
     //Add health to scene.
     health = new Health();
-    health->setPos(health->x(),health->y()+40);
+    health->setPos(screenWidth/2 - health->boundingRect().width() / 2,health->y());
     scene->addItem(health);
 
     //Add limit to scene.
     limits = new Limiter();
-    limits->setPos(limits->x(),limits->y()+80);
+    limits->setPos(screenWidth - limits->boundingRect().width() - 10,limits->y());
     scene->addItem(limits);
 
     // Add enemyManager to manage enemies spawned.
