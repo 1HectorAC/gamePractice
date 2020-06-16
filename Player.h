@@ -15,6 +15,7 @@ public:
     QTimer * shotTime;
     int width;
     int height;
+    int speed;
 public slots:
 
 };

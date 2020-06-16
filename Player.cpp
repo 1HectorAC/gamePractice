@@ -16,25 +16,37 @@ Player::Player(int width, int height, QGraphicsItem *parent): QGraphicsPixmapIte
 
     // Setup timer for shots.
     shotTime = new QTimer(this);
-    shotTime->start(7);
+    shotTime->start(10);
+
+    speed = 90;
 
 }
 
 void Player::keyPressEvent(QKeyEvent *event){
+    //Increase speed when key is held down.
+    if(event->isAutoRepeat()){
+        if(speed <= 150)
+            speed+= 10;
+    }
+    else{
+        speed = 90;
+    }
     // Move left if x position not past left boundary.
     if (event->key() == Qt::Key_Left){
-        if (pos().x() > 0)
-            setPos(x()-(height * 1.4),y());
+        if (pos().x() - speed > 0 - width / 2)
+            setPos(x()-speed,y());
+
     }
     // Move right if x position not past right boundary.
     else if (event->key() == Qt::Key_Right){
-        if (pos().x() < game->screenWidth - (height * 2.8))
-            setPos(x()+(height * 1.4) ,y());
+        if (pos().x()+ speed < game->screenWidth - (width /2))
+            setPos(x()+speed ,y());
+
     }
 
     // Shoot bullet.
-    else if (event->key() == Qt::Key_Space ||
-             event->key() == Qt::Key_B){
+    else if ((event->key() == Qt::Key_Space ||
+             event->key() == Qt::Key_B) && !event->isAutoRepeat() ){
 
         // Create a bullet.
         Bullet * bullet = new Bullet(0);
@@ -59,3 +71,6 @@ void Player::keyPressEvent(QKeyEvent *event){
         }
     }
 }
+
+
+
