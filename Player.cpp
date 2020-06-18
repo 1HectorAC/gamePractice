@@ -4,7 +4,9 @@
 #include "Game.h"
 #include <QGraphicsScene>
 #include <QKeyEvent>
+#include <chrono>
 
+using namespace std::chrono;
 extern Game * game;
 Player::Player(int width, int height, QGraphicsItem *parent): QGraphicsPixmapItem(parent){
 
@@ -19,6 +21,7 @@ Player::Player(int width, int height, QGraphicsItem *parent): QGraphicsPixmapIte
     shotTime->start(10);
 
     speed = 90;
+    repeatShotTime = high_resolution_clock::now();
 
 }
 
@@ -48,14 +51,17 @@ void Player::keyPressEvent(QKeyEvent *event){
     else if ((event->key() == Qt::Key_Space ||
              event->key() == Qt::Key_B) && !event->isAutoRepeat() ){
 
-        // Create a bullet.
-        Bullet * bullet = new Bullet(0);
-        bullet->setTimer(shotTime);
-        // Adjust position to be at the center of player.
-        bullet->setPos(x()+height/2.2,y());
-        scene()->addItem(bullet);
-
-
+        // Check to make sure key can only be clicked every 200 milliseconds.
+        auto timeNow = high_resolution_clock::now();
+        if(duration_cast<milliseconds>(timeNow - repeatShotTime).count() >= 200){
+            // Create a bullet.
+            Bullet * bullet = new Bullet(0);
+            bullet->setTimer(shotTime);
+            // Adjust position to be at the center of player.
+            bullet->setPos(x()+height/2.2,y());
+            scene()->addItem(bullet);
+            repeatShotTime = high_resolution_clock::now();
+        }
     }
     // Shot a stronger bullet.
     else if (event->key() == Qt::Key_V){

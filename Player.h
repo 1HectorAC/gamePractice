@@ -5,6 +5,9 @@
 #include <QObject>
 #include <QGraphicsItem>
 #include <QTimer>
+#include <chrono>
+
+using namespace std::chrono;
 
 class Player:public QObject, public QGraphicsPixmapItem{
     Q_OBJECT
@@ -16,6 +19,8 @@ public:
     int width;
     int height;
     int speed;
+    high_resolution_clock::time_point repeatShotTime;
+
 public slots:
 
 };
